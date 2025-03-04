@@ -2,9 +2,12 @@ import { motion } from "framer-motion";
 import { Edit, Search, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import ProductModal from "./ProductModal";
+import Swal from "sweetalert2";
+import useStore from "../../zustand-store/store";
 // Importing the edit modal
 
 const ProductsTable = ({ productsData = [] }) => {
+  const { deleteProduct, getProducts } = useStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -33,6 +36,42 @@ const ProductsTable = ({ productsData = [] }) => {
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setSelectedProduct(null);
+  };
+
+  const handleDeleteClick = (productId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteProduct(productId);
+      }
+    });
+  };
+
+  const handleDeleteProduct = async (id) => {
+    const response = await deleteProduct(id);
+    if (response.status === "success") {
+      getProducts();
+      Swal.fire({
+        title: "Success!",
+        text: response.message,
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: response.message,
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+    }
   };
 
   return (
@@ -116,7 +155,10 @@ const ProductsTable = ({ productsData = [] }) => {
                     >
                       <Edit size={18} />
                     </button>
-                    <button className="text-red-400 hover:text-red-300">
+                    <button
+                      onClick={() => handleDeleteClick(product._id)}
+                      className="text-red-400 hover:text-red-300"
+                    >
                       <Trash2 size={18} />
                     </button>
                   </td>
@@ -124,12 +166,13 @@ const ProductsTable = ({ productsData = [] }) => {
               ))
             ) : (
               <tr>
-                <td
+                <t
+                  d
                   colSpan="6"
                   className="text-center py-4 text-gray-400 text-sm"
                 >
                   No products found.
-                </td>
+                </t>
               </tr>
             )}
           </tbody>

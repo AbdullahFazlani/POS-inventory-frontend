@@ -11,7 +11,6 @@ import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import { AuthRoute } from "./components/authRoute";
-
 function App() {
   const location = useLocation(); // Get current route
 

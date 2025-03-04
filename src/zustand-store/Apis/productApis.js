@@ -48,3 +48,18 @@ export const updateProductAPI = async (set, id, productData) => {
     return error.response.data;
   }
 };
+export const deleteProductAPI = async (set, id) => {
+  set({ loading: true, error: null });
+
+  try {
+    const response = await AxiosInstance.delete(`/api/products/${id}`);
+    console.log({ response });
+    set({
+      loading: false,
+    });
+    return response.data;
+  } catch (error) {
+    set({ error: "Failed to delete product", loading: false });
+    return error.response.data;
+  }
+};

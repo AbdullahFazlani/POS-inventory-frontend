@@ -1,11 +1,13 @@
 import { create } from "zustand";
 import { postUserAPI } from "./Apis/fetchUser";
 import {
+  deleteProductAPI,
   getProductsAPI,
   postProductAPI,
   updateProductAPI,
 } from "./Apis/productApis";
 import {
+  deleteCustomerAPI,
   getCustomersAPI,
   postCustomerAPI,
   updateCustomerAPI,
@@ -27,11 +29,13 @@ const useStore = create((set) => ({
   getProducts: () => getProductsAPI(set),
   addProduct: (productData) => postProductAPI(set, productData),
   updateProduct: (id, productData) => updateProductAPI(set, id, productData),
+  deleteProduct: (id) => deleteProductAPI(set, id),
 
   // for customers
   getCustomers: () => getCustomersAPI(set),
   addCustomer: (custData) => postCustomerAPI(set, custData),
   updateCustomer: (id, custData) => updateCustomerAPI(set, id, custData),
+  deleteCustomer: (id) => deleteCustomerAPI(set, id),
 }));
 
 export default useStore;

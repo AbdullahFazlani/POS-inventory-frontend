@@ -46,3 +46,19 @@ export const updateCustomerAPI = async (set, id, custData) => {
     return error.response.data;
   }
 };
+
+export const deleteCustomerAPI = async (set, id) => {
+  set({ loading: true, error: null });
+
+  try {
+    const response = await AxiosInstance.delete(`/api/customers/${id}`);
+    console.log({ response });
+    set({
+      loading: false,
+    });
+    return response.data;
+  } catch (error) {
+    set({ error: "Failed to delete customer", loading: false });
+    return error.response.data;
+  }
+};
