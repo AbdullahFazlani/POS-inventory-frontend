@@ -1,3 +1,19 @@
+/**
+ * AnalyticsPage Component
+ *
+ * This component provides advanced business analytics and insights with
+ * multiple specialized visualization components for in-depth data analysis.
+ *
+ * Features:
+ * - Key metrics overview
+ * - Revenue performance charts
+ * - Channel effectiveness analysis
+ * - Product performance metrics
+ * - User retention visualization
+ * - Customer segmentation analysis
+ * - AI-powered business insights
+ */
+
 import Header from "../components/common/Header";
 
 import OverviewCards from "../components/analytics/OverviewCards";
@@ -9,24 +25,37 @@ import CustomerSegmentation from "../components/analytics/CustomerSegmentation";
 import AIPoweredInsights from "../components/analytics/AIPoweredInsights";
 
 const AnalyticsPage = () => {
-	return (
-		<div className='flex-1 overflow-auto relative z-10 bg-gray-900'>
-			<Header title={"Analytics Dashboard"} />
+  return (
+    <div className="flex-1 overflow-auto relative z-10 bg-gray-900">
+      {/* Page header */}
+      <Header title={"Analytics Dashboard"} />
 
-			<main className='max-w-7xl mx-auto py-6 px-4 lg:px-8'>
-				<OverviewCards />
-				<RevenueChart />
+      <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+        {/* Key metrics overview cards */}
+        <OverviewCards />
 
-				<div className='grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8'>
-					<ChannelPerformance />
-					<ProductPerformance />
-					<UserRetention />
-					<CustomerSegmentation />
-				</div>
+        {/* Main revenue performance chart */}
+        <RevenueChart />
 
-				<AIPoweredInsights />
-			</main>
-		</div>
-	);
+        {/* Specialized analytics visualizations */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          {/* Analysis of marketing/sales channels */}
+          <ChannelPerformance />
+
+          {/* Analysis of individual product performance */}
+          <ProductPerformance />
+
+          {/* User retention analysis over time */}
+          <UserRetention />
+
+          {/* Customer classification analysis */}
+          <CustomerSegmentation />
+        </div>
+
+        {/* AI-generated business insights section */}
+        <AIPoweredInsights />
+      </main>
+    </div>
+  );
 };
 export default AnalyticsPage;
