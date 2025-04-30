@@ -12,6 +12,12 @@ export const postUserAPI = async (set, userData) => {
       token: response.data.data.token,
     });
   } catch (error) {
-    set({ error: "Failed to fetch customers", loading: false });
+    console.error("Error during login:", error);
+    set({
+      loading: false,
+      error: error.response
+        ? error.response.data.message
+        : "An unexpected error occurred",
+    });
   }
 };
