@@ -11,6 +11,7 @@ import OrdersPage from "./pages/OrdersPage";
 import AnalyticsPage from "./pages/AnalyticsPage";
 import SettingsPage from "./pages/SettingsPage";
 import { AuthRoute } from "./components/authRoute";
+import InvoicePage from "./pages/InvoicePage";
 function App() {
   const location = useLocation(); // Get current route
 
@@ -46,6 +47,14 @@ function App() {
           element={
             <AuthRoute>
               <ProductsPage />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/invoice"
+          element={
+            <AuthRoute>
+              <InvoicePage />
             </AuthRoute>
           }
         />
