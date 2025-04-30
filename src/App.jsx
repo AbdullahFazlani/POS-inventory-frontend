@@ -6,12 +6,11 @@ import Login from "./pages/LoginPage"; // Import the Login page
 import OverviewPage from "./pages/OverviewPage";
 import ProductsPage from "./pages/ProductsPage";
 import UsersPage from "./pages/UsersPage";
-import SalesPage from "./pages/SalesPage";
-import OrdersPage from "./pages/OrdersPage";
-import AnalyticsPage from "./pages/AnalyticsPage";
+
 import SettingsPage from "./pages/SettingsPage";
 import { AuthRoute } from "./components/authRoute";
-import InvoicePage from "./pages/InvoicePage";
+import InvoicesTable from "./pages/InvoiceTable";
+import InvoicesPage from "./pages/InvoicePage";
 function App() {
   const location = useLocation(); // Get current route
 
@@ -54,7 +53,15 @@ function App() {
           path="/invoice"
           element={
             <AuthRoute>
-              <InvoicePage />
+              <InvoicesTable />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/add-invoice"
+          element={
+            <AuthRoute>
+              <InvoicesPage />
             </AuthRoute>
           }
         />
@@ -63,30 +70,6 @@ function App() {
           element={
             <AuthRoute>
               <UsersPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/sales"
-          element={
-            <AuthRoute>
-              <SalesPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/orders"
-          element={
-            <AuthRoute>
-              <OrdersPage />
-            </AuthRoute>
-          }
-        />
-        <Route
-          path="/analytics"
-          element={
-            <AuthRoute>
-              <AnalyticsPage />
             </AuthRoute>
           }
         />

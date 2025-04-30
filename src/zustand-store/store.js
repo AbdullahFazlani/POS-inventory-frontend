@@ -12,6 +12,7 @@ import {
   postCustomerAPI,
   updateCustomerAPI,
 } from "./Apis/customerApis";
+import { getInvoiceAPI, postInvoiceAPI } from "./Apis/InvoiceApi";
 
 const useStore = create((set) => ({
   user: [],
@@ -36,6 +37,10 @@ const useStore = create((set) => ({
   addCustomer: (custData) => postCustomerAPI(set, custData),
   updateCustomer: (id, custData) => updateCustomerAPI(set, id, custData),
   deleteCustomer: (id) => deleteCustomerAPI(set, id),
+
+  // for invoice
+  postInvoice: (invoiceData) => postInvoiceAPI(set, invoiceData),
+  getInvoices: (startDate, endDate) => getInvoiceAPI(set, startDate, endDate), // Assuming you have a function to fetch invoices
 }));
 
 export default useStore;
