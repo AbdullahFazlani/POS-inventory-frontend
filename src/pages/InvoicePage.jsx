@@ -26,13 +26,16 @@ const InvoicePage = () => {
   const formik = useFormik({
     initialValues: {
       customerId: "",
+      billStatus: "Paid", // Default value
     },
     validationSchema: Yup.object({
       customerId: Yup.string().required("Customer is required"),
+      billStatus: Yup.string().required("Bill status is required"),
     }),
     onSubmit: async (values, { resetForm }) => {
       const payload = {
         customerId: formik.values.customerId,
+        billStatus: formik.values.billStatus,
         products: items.map((item) => ({
           product: item.productId,
           quantity: item.quantity,
@@ -126,6 +129,25 @@ const InvoicePage = () => {
                 {formik.errors.customerId}
               </p>
             )}
+          </div>
+
+          {/* Bill Status radio buttons */}
+          <div>
+            <label className="block text-white mb-1">Bill Status</label>
+            <div className="flex gap-4 text-white">
+              {["Paid", "Unpaid", "Return"].map((status) => (
+                <label key={status} className="flex items-center gap-1">
+                  <input
+                    type="radio"
+                    name="billStatus"
+                    value={status}
+                    checked={formik.values.billStatus === status}
+                    onChange={formik.handleChange}
+                  />
+                  {status}
+                </label>
+              ))}
+            </div>
           </div>
 
           {/* Product & Quantity Selector */}

@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { Eye, PlusCircle, Trash2, X } from "lucide-react";
-import Swal from "sweetalert2";
+import { Eye, PlusCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import useStore from "../zustand-store/store";
 import Header from "../components/common/Header";
@@ -95,12 +94,16 @@ const InvoicesTable = () => {
                       {invoice.paymentStatus}
                     </td>
                     <td className="px-6 py-4 text-sm text-gray-300">
-                      {new Date(invoice.createdAt).toLocaleDateString("en-US", {
+                      {new Date(invoice.createdAt).toLocaleString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
                       })}
                     </td>
+
                     <td className="px-6 py-4 text-sm text-gray-300">
                       <button
                         onClick={() => setSelectedInvoice(invoice)}

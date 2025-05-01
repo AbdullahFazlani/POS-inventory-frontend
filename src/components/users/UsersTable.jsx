@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Edit, Search, Trash2 } from "lucide-react";
+import { Edit, Search, Trash2, FileText } from "lucide-react";
 import UserModal from "./UserModal";
 import useStore from "../../zustand-store/store";
 import Swal from "sweetalert2";
 
-const UsersTable = ({ custData }) => {
+const UsersTable = ({ custData, onViewInvoicesClick }) => {
   const { deleteCustomer, getCustomers } = useStore();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -32,11 +32,6 @@ const UsersTable = ({ custData }) => {
     setIsEditModalOpen(true);
   };
 
-  const handleCloseEditModal = () => {
-    setIsEditModalOpen(false);
-    setSelectedCustomer(null);
-  };
-
   const handleDeleteClick = (customerId) => {
     Swal.fire({
       title: "Are you sure?",
@@ -52,25 +47,17 @@ const UsersTable = ({ custData }) => {
       }
     });
   };
+
   const handleDeleteCustomer = async (id) => {
     const response = await deleteCustomer(id);
     if (response.status === "success") {
       getCustomers();
-      Swal.fire({
-        title: "Success!",
-        text: response.message,
-        icon: "success",
-        confirmButtonText: "OK",
-      });
+      Swal.fire("Deleted!", response.message, "success");
     } else {
-      Swal.fire({
-        title: "Error!",
-        text: response.message,
-        icon: "error",
-        confirmButtonText: "Ok",
-      });
+      Swal.fire("Error!", response.message, "error");
     }
   };
+
   return (
     <motion.div
       className="bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700"
@@ -116,7 +103,7 @@ const UsersTable = ({ custData }) => {
 
           <tbody className="divide-y divide-gray-700">
             {filteredUsers?.length > 0 ? (
-              filteredUsers?.map((user) => (
+              filteredUsers.map((user) => (
                 <motion.tr
                   key={user.id}
                   initial={{ opacity: 0 }}
@@ -125,36 +112,35 @@ const UsersTable = ({ custData }) => {
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="flex-shrink-0 h-10 w-10">
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
-                          {user.name.charAt(0)}
-                        </div>
+                      <div className="h-10 w-10 rounded-full bg-gradient-to-r from-purple-400 to-blue-500 flex items-center justify-center text-white font-semibold">
+                        {user.name.charAt(0)}
                       </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-100">
-                          {user.name}
-                        </div>
+                      <div className="ml-4 text-sm font-medium text-gray-100">
+                        {user.name}
                       </div>
                     </div>
                   </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-300">{user.email}</div>
+                  <td className="px-6 py-4 text-sm text-gray-300">
+                    {user.email}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-300">{user.phone}</div>
+                  <td className="px-6 py-4 text-sm text-gray-300">
+                    {user.phone}
                   </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-300">{user.balance}</div>
+                  <td className="px-6 py-4 text-sm text-gray-300">
+                    {user.balance}
                   </td>
-
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 space-x-2">
                     <button
                       onClick={() => handleEditClick(user)}
-                      className="text-indigo-400 hover:text-indigo-300 mr-2"
+                      className="text-indigo-400 hover:text-indigo-300"
                     >
                       <Edit size={18} />
+                    </button>
+                    <button
+                      onClick={() => onViewInvoicesClick(user)}
+                      className="text-green-400 hover:text-green-300"
+                    >
+                      <FileText size={18} />
                     </button>
                     <button
                       onClick={() => handleDeleteClick(user._id)}
@@ -178,12 +164,18 @@ const UsersTable = ({ custData }) => {
           </tbody>
         </table>
       </div>
+
+      {/* Edit modal */}
       <UserModal
         isOpen={isEditModalOpen}
-        onClose={handleCloseEditModal}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setSelectedCustomer(null);
+        }}
         customer={selectedCustomer}
       />
     </motion.div>
   );
 };
+
 export default UsersTable;
